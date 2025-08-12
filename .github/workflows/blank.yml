@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Say hello
+        run: echo "Hello, world!"
+
+      - name: Do a few basic commands
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Repo contents:"
+          ls -la
+
+      - name: Multi-line script example
+        run: |
+          echo "Add other actions to build,"
+          echo "test, and deploy your project."
