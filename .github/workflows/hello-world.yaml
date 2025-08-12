@@ -2,6 +2,12 @@ name: Publish Hello World to Callback
 
 on:
   workflow_dispatch: # allows manual/API trigger
+    inputs:
+      url:
+        description: "Cortex Callback URL"
+        required: true
+        type: string
+      
   push:
     branches: ["main"]
 
