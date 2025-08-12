@@ -1,24 +1,38 @@
 name: Publish Hello World to Callback
-
 on:
-  workflow_dispatch: # allows manual/API trigger
+  workflow_dispatch:
     inputs:
       url:
         description: "Cortex Callback URL"
         required: true
         type: string
-      
-  push:
-    branches: ["main"]
+
+env:
+  CORTEX_API_KEY: ${{ secrets.CORTEX_XYCIACORTEX_KEY }}
 
 jobs:
-  send-callback:
+  async-callback:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Send "Hello World" to callback
+      - name: Display Callback URL
         run: |
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -d '{"message": "Hello World"}' \
-            https://your-callback-url.com/webhook
+          echo "Callback URL: ${{ github.event.inputs.url }}"
+
+      - name: Write data to callback URL
+        run: |
+          (cat << EOF
+          {
+            "message": "This is the message.",
+            "response": {
+              "foo": "bar"
+            },
+            "status": "SUCCESS"
+          }
+          EOF
+          ) | curl \
+            -vvv \
+            --fail-with-body \
+            --data @- \
+            -H "Content-Type: application/json;charset=UTF-8" \
+            -H "Authorization: Bearer ${CORTEX_API_KEY}" \
+            ${{ github.event.inputs.url }}
