@@ -35,5 +35,5 @@ jobs:
             --fail-with-body \
             --data @- \
             -H "Content-Type: application/json;charset=UTF-8" \
-            -H "Authorization: Bearer ${CORTEX_XYCIACORTEX_KEY}" \
+            -H "Authorization: Bearer ${CORTEX_API_KEY}" \
             ${{ github.event.inputs.url }}
