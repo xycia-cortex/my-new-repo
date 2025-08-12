@@ -1,4 +1,5 @@
-name: Publish Hello World to Callback
+name: Test Cortex Async HTTP Callback
+
 on:
   workflow_dispatch:
     inputs:
@@ -14,20 +15,20 @@ jobs:
   async-callback:
     runs-on: ubuntu-latest
     steps:
-      - name: Display Callback URL
+      - name: Display Callback URL 
         run: |
           echo "Callback URL: ${{ github.event.inputs.url }}"
 
       - name: Write data to callback URL
         run: |
           (cat << EOF
-          {
-            "message": "This is the message.",
-            "response": {
-              "foo": "bar"
-            },
-            "status": "SUCCESS"
-          }
+            {
+              "message": "This is the message.",
+              "response": {
+                 "foo": "bar"
+              },
+              "status": "SUCCESS"
+            }
           EOF
           ) | curl \
             -vvv \
