@@ -1,0 +1,18 @@
+name: Publish Hello World to Callback
+
+on:
+  workflow_dispatch: # allows manual/API trigger
+  push:
+    branches: ["main"]
+
+jobs:
+  send-callback:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send "Hello World" to callback
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"message": "Hello World"}' \
+            https://your-callback-url.com/webhook
